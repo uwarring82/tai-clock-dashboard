@@ -12,7 +12,9 @@ Preserve the reported sign and reference. The clock files report `UTC(k) − clo
 
 Use the run instructions in the [README](README.md) to verify a fresh build. The fixture adapter in `tai_dashboard/ingest.py` treats each release as a full monthly snapshot. An archive adapter should preserve each BIPM product's individual provenance and availability, since phase, steps and weights may be released independently. The current schemas and JSON endpoints are pilot interfaces.
 
-A next change can add the October audit's coverage-by-count and coverage-by-official-weight queries against synthetic fixtures. Exercise a positive-weight clock with an incomplete month and keep the denominator explicit. Once real data use and retention are cleared, verify source layouts, coverage, and the phase and link signs against the permitted records.
+The synthetic coverage audit is available at `/coverage` and `/api/coverage`. It uses the positively weighted monthly roster as the fixed denominator for every epoch and exposes each incomplete clock-month. The revised October fixture deliberately produces equal count coverage with different weight coverage.
+
+The next worker can catalogue public release metadata and document the source contract for each October product, including its reference, sign, and release availability. Exercise product-specific release cutoffs with synthetic files. Once real data use and retention are cleared, verify source layouts, coverage, and the phase and link signs against the permitted records.
 
 ## October 2026 pilot
 

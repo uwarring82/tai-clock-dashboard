@@ -2,6 +2,7 @@
 
 import sqlite3
 from contextlib import closing
+from math import fsum
 from pathlib import Path
 
 PHASE_REFERENCE = "UTC(k) − clock"
@@ -79,7 +80,7 @@ def metadata(db, as_of):
     }
 
 
-def roster(db, as_of=None, period=None, mjd=None):
+def period_snapshot(db, as_of, period):
     result = metadata(db, as_of)
     periods = [release["period"] for release in result["releases"]]
     if period is not None and period not in periods:
@@ -90,19 +91,77 @@ def roster(db, as_of=None, period=None, mjd=None):
         SELECT e.mjd FROM epoch e JOIN selected s ON s.id = e.release_id
         WHERE s.period = :period ORDER BY e.mjd
     """, params)]
-    if mjd is not None and mjd not in epochs:
-        raise LookupError("No observation epoch for that period and MJD.")
-    mjd = mjd if mjd is not None else (epochs[-1] if epochs else None)
-    observations = rows(db, SELECTED + """
+    return {**result, "period": period, "epochs": epochs}, params
+
+
+def period_observations(db, params, mjd=None):
+    return rows(db, SELECTED + """
         , members AS (""" + ALL_MEMBERS + """),
         visible_clocks AS (
             SELECT DISTINCT m.clock_code FROM members m
             JOIN selected s ON s.id = m.release_id WHERE s.period = :period
         )
     """ + OBSERVATIONS + """
-        WHERE s.period = :period AND e.mjd = :mjd ORDER BY c.clock_code
+        WHERE s.period = :period AND (:mjd IS NULL OR e.mjd = :mjd)
+        ORDER BY e.mjd, c.clock_code
     """, {**params, "mjd": mjd})
-    return {**result, "period": period, "mjd": mjd, "epochs": epochs, "clocks": observations}
+
+
+def roster(db, as_of=None, period=None, mjd=None):
+    snapshot, params = period_snapshot(db, as_of, period)
+    epochs = snapshot["epochs"]
+    if mjd is not None and mjd not in epochs:
+        raise LookupError("No observation epoch for that period and MJD.")
+    mjd = mjd if mjd is not None else (epochs[-1] if epochs else None)
+    return {**snapshot, "mjd": mjd, "clocks": period_observations(db, params, mjd)}
+
+
+def coverage(db, as_of=None, period=None):
+    """Audit usable observations against the positive-weight monthly roster."""
+    snapshot, params = period_snapshot(db, as_of, period)
+    roster_weights = rows(db, SELECTED + """
+        SELECT w.clock_code, w.weight_percent
+        FROM official_weight w JOIN selected s ON s.id = w.release_id
+        WHERE s.period = :period AND w.weight_percent > 0
+        ORDER BY w.clock_code
+    """, params)
+    total_count = len(roster_weights)
+    total_weight = fsum(clock["weight_percent"] for clock in roster_weights)
+
+    observed_weights = {mjd: [] for mjd in snapshot["epochs"]}
+    issues = {clock["clock_code"]: [] for clock in roster_weights}
+    for item in period_observations(db, params):
+        if item["weight_status"] != "positive":
+            continue
+        if item["observation_status"] == "observed":
+            observed_weights[item["mjd"]].append(item["weight_percent"])
+        else:
+            issues[item["clock_code"]].append({
+                key: item[key] for key in ("mjd", "lab", "observation_status", "exclusion_reason")
+            })
+
+    epochs = []
+    for mjd, weights in observed_weights.items():
+        count = len(weights)
+        weight = fsum(weights)
+        epochs.append({
+            "mjd": mjd,
+            "observed_clocks": count,
+            "observed_weight_percent": weight,
+            "count_fraction": count / total_count if total_count else None,
+            "weight_fraction": weight / total_weight if total_weight else None,
+        })
+
+    return {
+        **snapshot,
+        "positive_weight_clocks": total_count,
+        "total_positive_weight_percent": total_weight,
+        "epochs": epochs,
+        "incomplete_clocks": [
+            {**clock, "issues": issues[clock["clock_code"]]}
+            for clock in roster_weights if issues[clock["clock_code"]]
+        ],
+    }
 
 
 def clock_history(db, code, as_of=None):

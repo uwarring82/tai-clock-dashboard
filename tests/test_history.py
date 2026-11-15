@@ -3,13 +3,14 @@ import shutil
 import sqlite3
 import tempfile
 import unittest
+from contextlib import closing
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 from threading import Thread
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
-from tai_dashboard.history import clock_history, read_only, roster
+from tai_dashboard.history import clock_history, coverage, read_only, roster
 from tai_dashboard.ingest import build_database
 from tai_dashboard.web import handler_for
 
@@ -71,6 +72,49 @@ class SnapshotTests(unittest.TestCase):
         self.assertEqual(first["phase_reference"], "UTC(k) − clock")
         self.assertEqual(first["phase_unit"], "ns")
 
+    def test_coverage_reconciles_each_epoch_against_monthly_positive_weights(self):
+        with read_only(self.database) as db:
+            audit = coverage(db, period="2026-10")
+            september = coverage(db, period="2026-09")
+
+        self.assertEqual(audit["positive_weight_clocks"], 2)
+        self.assertAlmostEqual(audit["total_positive_weight_percent"], 0.76)
+        self.assertEqual([epoch["mjd"] for epoch in audit["epochs"]],
+                         [61316, 61321, 61326, 61331, 61336, 61341])
+        for epoch, weight in zip(audit["epochs"], (0.41, 0.41, 0.41, 0.35, 0.35, 0.41)):
+            with self.subTest(mjd=epoch["mjd"]):
+                self.assertEqual(epoch["observed_clocks"], 1)
+                self.assertEqual(epoch["count_fraction"], 0.5)
+                self.assertAlmostEqual(epoch["observed_weight_percent"], weight)
+                self.assertAlmostEqual(epoch["weight_fraction"], weight / 0.76)
+
+        gaps = {clock["clock_code"]: clock["issues"] for clock in audit["incomplete_clocks"]}
+        self.assertEqual(list(gaps), ["SYN-A", "SYN-D"])
+        self.assertEqual([issue["observation_status"] for issue in gaps["SYN-A"]],
+                         ["missing", "excluded"])
+        self.assertIn("receiver reset", gaps["SYN-A"][1]["exclusion_reason"])
+        self.assertEqual([issue["observation_status"] for issue in gaps["SYN-D"]],
+                         ["outside_roster", "outside_roster", "outside_roster", "missing"])
+        self.assertEqual(september["epochs"][0]["count_fraction"], 1.0)
+        self.assertEqual(september["epochs"][0]["weight_fraction"], 1.0)
+
+    def test_coverage_with_no_positive_weight_has_undefined_fractions(self):
+        with closing(sqlite3.connect(self.database)) as db, db:
+            db.execute("DELETE FROM official_weight WHERE weight_percent > 0")
+        with read_only(self.database) as db:
+            audit = coverage(db, period="2026-10")
+            before_first_release = coverage(db, as_of="2026-10-01T00:00:00Z")
+
+        self.assertEqual(audit["positive_weight_clocks"], 0)
+        self.assertEqual(audit["total_positive_weight_percent"], 0)
+        self.assertEqual(audit["incomplete_clocks"], [])
+        self.assertEqual(len(audit["epochs"]), 6)
+        self.assertTrue(all(
+            epoch["count_fraction"] is None and epoch["weight_fraction"] is None
+            for epoch in audit["epochs"]
+        ))
+        self.assertEqual(before_first_release["epochs"], [])
+
     def test_failed_ingest_preserves_existing_snapshot(self):
         sources = self.workspace / "sources"
         shutil.copytree(FIXTURES, sources)
@@ -94,6 +138,7 @@ class SnapshotTests(unittest.TestCase):
                     self.assertIn("Outside roster", html)
                     self.assertIn("0%", html)
                     self.assertIn("/clocks/SYN-A", html)
+                    self.assertIn("/coverage?period=2026-10", html)
                 with urlopen(address + "/clocks/SYN-A", timeout=5) as response:
                     html = response.read().decode()
                     self.assertLess(html.index("Declared step ·"), html.index(">Missing<"))
@@ -101,9 +146,22 @@ class SnapshotTests(unittest.TestCase):
                 with urlopen(address + f"/api/clocks/SYN-A?as_of={FIRST_OCT_RELEASE}", timeout=5) as response:
                     self.assertEqual(response.headers.get_content_type(), "application/json")
                     self.assertEqual(json.load(response)["observations"][-1]["phase_ns"], 2.9)
+                with urlopen(address + "/coverage?period=2026-10", timeout=5) as response:
+                    html = response.read().decode()
+                    self.assertIn("Coverage by epoch", html)
+                    self.assertIn("53.95%", html)
+                    self.assertIn("46.05%", html)
+                    self.assertIn("receiver reset", html)
+                first_audit = f"/api/coverage?period=2026-10&as_of={FIRST_OCT_RELEASE}"
+                with urlopen(address + first_audit, timeout=5) as response:
+                    first = json.load(response)
+                    self.assertEqual(first["releases"][-1]["revision"], 1)
+                    self.assertAlmostEqual(first["total_positive_weight_percent"], 0.73)
+                    self.assertAlmostEqual(first["epochs"][0]["weight_fraction"], 0.38 / 0.73)
                 for path, status in (
                     ("/api/roster?as_of=tomorrow", 400),
                     ("/api/roster?mjd=1", 404),
+                    ("/api/coverage?period=2026-11", 404),
                     ("/api/clocks/unknown", 404),
                 ):
                     with self.subTest(path=path), self.assertRaises(HTTPError) as context:

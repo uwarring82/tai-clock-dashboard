@@ -15,11 +15,18 @@ Open [the local dashboard](http://127.0.0.1:8000/). The roster shows one five-da
 
 The synthetic manifest identifies each source by SHA-256 and records its availability and retrieval timestamps. Ingest verifies the bytes and builds a SQLite snapshot that the server opens read-only. Each fixture release is a complete snapshot for its month. The dashboard labels phase as `UTC(k) − clock` in ns and retains reported values, including flagged observations. Its weights are example percentages for a subset of a synthetic ensemble.
 
+## October coverage audit
+
+Open **Coverage audit** from the roster. For each epoch, the denominator is the archived monthly list of positively weighted clocks, or the sum of their monthly weights for weighted coverage. A clock contributes to the numerator when its observation is usable. The incomplete clock-months table lists every missing, excluded, or outside-roster epoch for each positively weighted clock.
+
+In the revised synthetic October release, one of two positively weighted clocks is observed at every epoch. The count coverage stays at 50%, while the weight coverage is 46.05% or 53.95% depending on which clock is observed.
+
 ## Read-only API
 
 - `GET /api/roster` accepts optional `period` (YYYY-MM), `mjd` (integer epoch) and `as_of`.
 - `GET /api/clocks/SYN-A` returns the clock timeline, declared steps, and monthly weights with optional `as_of`.
-- Use a UTC release cutoff of the form `2026-11-08T12:00:00Z`. By default both endpoints select the latest available revision per month.
+- `GET /api/coverage` accepts optional `period` and `as_of`. It returns the monthly denominators, per-epoch numerators and fractions, and incomplete positive-weight clock-months. Fractions are `null` when the denominator is zero.
+- Use a UTC release cutoff of the form `2026-11-08T12:00:00Z`. By default the endpoints select the latest available revision per month.
 
 Run the tests with `python3 -m unittest discover -s tests -v`.
 

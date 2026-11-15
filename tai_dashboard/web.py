@@ -6,7 +6,7 @@ from html import escape
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, quote, unquote, urlencode, urlsplit
 
-from .history import PHASE_REFERENCE, clock_history, read_only, release_options, roster
+from .history import PHASE_REFERENCE, clock_history, coverage, read_only, release_options, roster
 from .ingest import MJD_ZERO, validate_cutoff
 
 
@@ -112,7 +112,9 @@ def roster_page(data, releases):
     cutoff = cutoff_select(releases, as_of)
     periods = [(release["period"], release["period"]) for release in data["releases"]]
     period_control = select("Period", "period", periods, period, "Latest period")
-    current = f'<form action="/">{cutoff}<button>Apply cutoff</button></form>'
+    audit = url("/coverage", as_of=as_of, period=period)
+    current = (f'<p><a href="{h(audit)}">Coverage audit</a></p>'
+               f'<form action="/">{cutoff}<button>Apply cutoff</button></form>')
     if period is None:
         return page("Clock roster", current + "<p>No releases were available at this cutoff.</p>")
 
@@ -133,6 +135,57 @@ def roster_page(data, releases):
                       "Monthly weight"), body)
     release = next(release for release in data["releases"] if release["period"] == period)
     return page("Clock roster", current + f"<p>{release_source(release)}</p>")
+
+
+def coverage_page(data, releases):
+    period, as_of = data["period"], data["as_of"]
+    back = url("/", as_of=as_of, period=period)
+    cutoff = cutoff_select(releases, as_of)
+    controls = (f'<p><a href="{h(back)}">Clock roster</a></p>'
+                f'<form action="/coverage">{cutoff}<button>Apply cutoff</button></form>')
+    if period is None:
+        return page("Coverage audit", controls + "<p>No releases were available at this cutoff.</p>")
+
+    periods = [(release["period"], release["period"]) for release in data["releases"]]
+    period_control = select("Period", "period", periods, period)
+    controls += (f'<form action="/coverage"><input type="hidden" name="as_of" value="{h(as_of or "")}">'
+                 f'{period_control}<button>Load period</button></form>')
+    release = next(release for release in data["releases"] if release["period"] == period)
+    count = data["positive_weight_clocks"]
+    weight = data["total_positive_weight_percent"]
+    if not count:
+        return page("Coverage audit", controls + "<p>No clocks have a reported positive weight.</p>"
+                    f"<p>{release_source(release)}</p>")
+
+    def share(fraction):
+        return f"{fraction:.2%}"
+
+    epoch_rows = "".join(
+        row(date_label(epoch["mjd"]), f"{epoch['observed_clocks']} / {count}",
+            share(epoch["count_fraction"]), f"{number(epoch['observed_weight_percent'])}%",
+            share(epoch["weight_fraction"]))
+        for epoch in data["epochs"]
+    )
+    epoch_table = table(("Date (MJD)", "Observed clocks", "Count coverage",
+                         "Observed weight", "Weight coverage"), epoch_rows)
+
+    issues = ""
+    for clock in data["incomplete_clocks"]:
+        code = clock["clock_code"]
+        path = url(f"/clocks/{quote(code, safe='')}", as_of=as_of)
+        link = f'<a href="{h(path)}">{h(code)}</a>'
+        for issue in clock["issues"]:
+            issues += row(link, weight_label(clock), date_label(issue["mjd"]),
+                          h(issue["lab"] or "—"), observation_label(issue))
+    issues_table = (table(("Clock", "Monthly weight", "Date (MJD)", "Laboratory", "Observation"), issues)
+                    if issues else "<p>All positively weighted clocks were observed at every epoch.</p>")
+    return page("Coverage audit", controls + f"""
+<p>The monthly roster has {count} positively weighted clocks with {number(weight)}% total
+reported weight. Coverage uses that same roster and total weight at every epoch. Only usable
+observations contribute to the numerators.</p>
+<h2>Coverage by epoch</h2>{epoch_table}
+<h2>Incomplete clock-months</h2>{issues_table}
+<p>{release_source(release)}</p>""")
 
 
 def clock_page(data, releases):
@@ -185,6 +238,9 @@ def handler_for(database):
                     if path in ("/", "/api/roster"):
                         data = roster(db, **filters(request.query, {"as_of", "period", "mjd"}))
                         html = None if api else roster_page(data, release_options(db))
+                    elif path in ("/coverage", "/api/coverage"):
+                        data = coverage(db, **filters(request.query, {"as_of", "period"}))
+                        html = None if api else coverage_page(data, release_options(db))
                     elif path.startswith(("/clocks/", "/api/clocks/")):
                         code = unquote(path.split("/clocks/", 1)[1])
                         data = clock_history(db, code, **filters(request.query, {"as_of"}))
