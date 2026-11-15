@@ -1,0 +1,155 @@
+{
+  "period": "2026-10",
+  "revision": 1,
+  "epochs": [
+    61316,
+    61321,
+    61326,
+    61331,
+    61336,
+    61341
+  ],
+  "assignments": [
+    {
+      "clock": "SYN-A",
+      "lab": "North Laboratory",
+      "technology": "Hydrogen maser",
+      "first_mjd": 61316,
+      "last_mjd": 61326
+    },
+    {
+      "clock": "SYN-A",
+      "lab": "South Laboratory",
+      "technology": "Hydrogen maser",
+      "first_mjd": 61331,
+      "last_mjd": 61341
+    },
+    {
+      "clock": "SYN-B",
+      "lab": "South Laboratory",
+      "technology": "Cesium",
+      "first_mjd": 61316,
+      "last_mjd": 61341
+    },
+    {
+      "clock": "SYN-C",
+      "lab": "West Laboratory",
+      "technology": "Cesium",
+      "first_mjd": 61316,
+      "last_mjd": 61336
+    },
+    {
+      "clock": "SYN-D",
+      "lab": "West Laboratory",
+      "technology": "Hydrogen maser",
+      "first_mjd": 61331,
+      "last_mjd": 61341
+    }
+  ],
+  "observations": [
+    {
+      "clock": "SYN-A",
+      "mjd": 61316,
+      "phase_ns": -2.2
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61321,
+      "phase_ns": -1.7
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61326,
+      "phase_ns": -1.2
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61336,
+      "phase_ns": 2.2,
+      "exclusion_reason": "Synthetic quality flag: receiver reset."
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61341,
+      "phase_ns": 2.9
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61316,
+      "phase_ns": 4.7
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61321,
+      "phase_ns": 4.4
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61326,
+      "phase_ns": 4.1
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61331,
+      "phase_ns": 3.8
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61336,
+      "phase_ns": 3.5
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61341,
+      "phase_ns": 3.2
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61316,
+      "phase_ns": -5.1
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61321,
+      "phase_ns": -4.9
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61326,
+      "phase_ns": -4.7
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61331,
+      "phase_ns": -4.5
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61336,
+      "phase_ns": -4.3
+    },
+    {
+      "clock": "SYN-D",
+      "mjd": 61331,
+      "phase_ns": -0.8
+    },
+    {
+      "clock": "SYN-D",
+      "mjd": 61336,
+      "phase_ns": -0.4
+    }
+  ],
+  "weights_percent": {
+    "SYN-A": 0.38,
+    "SYN-B": 0,
+    "SYN-D": 0.35
+  },
+  "steps": [
+    {
+      "clock": "SYN-A",
+      "mjd": 61327.5,
+      "phase_step_ns": 1.25,
+      "note": "Synthetic clock adjustment."
+    }
+  ]
+}

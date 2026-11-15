@@ -1,0 +1,32 @@
+{
+  "format": "synthetic-v1",
+  "releases": [
+    {
+      "file": "2026-09-r1.json",
+      "period": "2026-09",
+      "revision": 1,
+      "source_url": "https://synthetic.invalid/tai-dashboard/2026-09-r1.json",
+      "available_at": "2026-10-08T12:00:00Z",
+      "retrieved_at": "2026-10-08T13:00:00Z",
+      "sha256": "4f6794e645a1da0fd2ad0d4a86d66e186a8b79b08486b7ca403f0dd9471c3812"
+    },
+    {
+      "file": "2026-10-r1.json",
+      "period": "2026-10",
+      "revision": 1,
+      "source_url": "https://synthetic.invalid/tai-dashboard/2026-10-r1.json",
+      "available_at": "2026-11-08T12:00:00Z",
+      "retrieved_at": "2026-11-08T13:00:00Z",
+      "sha256": "a197c4a26a6352f83950bf217c042a6f605219e8a0a22479f7f9957cb5ed5f4d"
+    },
+    {
+      "file": "2026-10-r2.json",
+      "period": "2026-10",
+      "revision": 2,
+      "source_url": "https://synthetic.invalid/tai-dashboard/2026-10-r2.json",
+      "available_at": "2026-11-12T12:00:00Z",
+      "retrieved_at": "2026-11-12T13:00:00Z",
+      "sha256": "ac7a5124e9608bb4045335b37547d9748f66f03236c33a750682ebb9e54caf0a"
+    }
+  ]
+}

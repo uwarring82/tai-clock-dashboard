@@ -1,0 +1,128 @@
+{
+  "period": "2026-09",
+  "revision": 1,
+  "epochs": [
+    61286,
+    61291,
+    61296,
+    61301,
+    61306,
+    61311
+  ],
+  "assignments": [
+    {
+      "clock": "SYN-A",
+      "lab": "North Laboratory",
+      "technology": "Hydrogen maser",
+      "first_mjd": 61286,
+      "last_mjd": 61311
+    },
+    {
+      "clock": "SYN-B",
+      "lab": "South Laboratory",
+      "technology": "Cesium",
+      "first_mjd": 61286,
+      "last_mjd": 61311
+    },
+    {
+      "clock": "SYN-C",
+      "lab": "West Laboratory",
+      "technology": "Cesium",
+      "first_mjd": 61286,
+      "last_mjd": 61306
+    }
+  ],
+  "observations": [
+    {
+      "clock": "SYN-A",
+      "mjd": 61286,
+      "phase_ns": -2.2
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61291,
+      "phase_ns": -1.7
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61296,
+      "phase_ns": -1.2
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61301,
+      "phase_ns": 0.4
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61306,
+      "phase_ns": 2.2
+    },
+    {
+      "clock": "SYN-A",
+      "mjd": 61311,
+      "phase_ns": 3.1
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61286,
+      "phase_ns": 4.7
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61291,
+      "phase_ns": 4.4
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61296,
+      "phase_ns": 4.1
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61301,
+      "phase_ns": 3.8
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61306,
+      "phase_ns": 3.5
+    },
+    {
+      "clock": "SYN-B",
+      "mjd": 61311,
+      "phase_ns": 3.2
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61286,
+      "phase_ns": -5.1
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61291,
+      "phase_ns": -4.9
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61296,
+      "phase_ns": -4.7
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61301,
+      "phase_ns": -4.5
+    },
+    {
+      "clock": "SYN-C",
+      "mjd": 61306,
+      "phase_ns": -4.3
+    }
+  ],
+  "weights_percent": {
+    "SYN-A": 0.38,
+    "SYN-B": 0,
+    "SYN-C": 0.29
+  },
+  "steps": []
+}

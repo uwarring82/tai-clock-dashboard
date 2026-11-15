@@ -8,6 +8,12 @@ Use fixtures that exercise clock moves between laboratories, revised releases, p
 
 Preserve the reported sign and reference. The clock files report `UTC(k) − clock`. For `x = pivot − clock`, the clock's fractional frequency relative to the pivot is `−Δx/Δt` when both are in seconds. Keep the sign of published rates and the reference for each imported product.
 
+## Continue from the synthetic pilot
+
+Use the run instructions in the [README](README.md) to verify a fresh build. The fixture adapter in `tai_dashboard/ingest.py` treats each release as a full monthly snapshot. An archive adapter should preserve each BIPM product's individual provenance and availability, since phase, steps and weights may be released independently. The current schemas and JSON endpoints are pilot interfaces.
+
+A next change can add the October audit's coverage-by-count and coverage-by-official-weight queries against synthetic fixtures. Exercise a positive-weight clock with an incomplete month and keep the denominator explicit. Once real data use and retention are cleared, verify source layouts, coverage, and the phase and link signs against the permitted records.
+
 ## October 2026 pilot
 
 The public listings identify the October clock files, the `step2610` file, the `w26.10` weights and the `2610/` link period. The record-level audit awaits documented reuse clearance. BIPM asks users to obtain the contributing laboratories' permission for other uses of their submitted data. Confirm the scope for internal audit and retention, and check permission separately for public display or release of derived data. Keep submitted clock records out of this public repository pending clearance. [BIPM reuse notice](https://www.bipm.org/en/time-ftp)

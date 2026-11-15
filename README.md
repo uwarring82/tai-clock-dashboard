@@ -1,7 +1,26 @@
 # TAI Clock Dashboard
 
-A research dashboard for the atomic clocks that contribute to International Atomic Time (TAI). The planned historical views bring together clock measurements, declared events, data coverage, and published ensemble weights.
+A research dashboard for the atomic clocks that contribute to International Atomic Time (TAI). The historical views bring together reported clock phase, declared events, observation status and monthly ensemble weights.
 
-The project is at the design stage. The first implementation will use synthetic clock records to test ingest and the historical views.
+## Run the synthetic pilot
 
-**Starting work?** Read the [contributor handoff](HANDOFF.md). It describes the first pull request, the October 2026 audit, and the conditions for using submitted clock data or starting the weight replay.
+From the repository root, use Python 3.10 or newer. The pilot uses the standard library and SQLite.
+
+```sh
+python3 -m tai_dashboard build
+python3 -m tai_dashboard serve
+```
+
+Open [the local dashboard](http://127.0.0.1:8000/). The roster shows one five-day epoch at a time. Select a clock to see its timeline across months. The October fixtures include a lab move, an off-grid clock step, a gap, an exclusion, and a revised phase and weight. The release cutoff changes which revisions are available in both views.
+
+The synthetic manifest identifies each source by SHA-256 and records its availability and retrieval timestamps. Ingest verifies the bytes and builds a SQLite snapshot that the server opens read-only. Each fixture release is a complete snapshot for its month. The dashboard labels phase as `UTC(k) − clock` in ns and retains reported values, including flagged observations. Its weights are example percentages for a subset of a synthetic ensemble.
+
+## Read-only API
+
+- `GET /api/roster` accepts optional `period` (YYYY-MM), `mjd` (integer epoch) and `as_of`.
+- `GET /api/clocks/SYN-A` returns the clock timeline, declared steps, and monthly weights with optional `as_of`.
+- Use a UTC release cutoff of the form `2026-11-08T12:00:00Z`. By default both endpoints select the latest available revision per month.
+
+Run the tests with `python3 -m unittest discover -s tests -v`.
+
+**Continuing development?** See the [contributor handoff](HANDOFF.md) for the October 2026 audit and the conditions for using submitted clock data or starting weight replay.
