@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Device-clock estimates of UTC and TAI, with published International Atomic Time results and source links.">
+  <title>TAI Clock Dashboard</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./clock.mjs"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap header-inner">
+      <a href="./" class="brand"><span class="brand-mark" aria-hidden="true"></span>TAI Clock Dashboard</a>
+      <nav aria-label="Page links">
+        <a href="#sources">Sources</a>
+        <a href="https://github.com/uwarring82/tai-clock-dashboard">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="title">
+      <h1 id="title">International Atomic Time</h1>
+      <p class="subtitle">The current TAI–UTC offset and the latest published results for the atomic time scale.</p>
+      <div class="clocks">
+        <div class="clock">
+          <h2>UTC <span>Coordinated Universal Time</span></h2>
+          <p class="digits" id="utc-time">--:--:--</p>
+          <p class="clock-date" id="utc-date">Device clock</p>
+        </div>
+        <div class="clock tai">
+          <h2>TAI <span>International Atomic Time</span></h2>
+          <p class="digits" id="tai-time">--:--:--</p>
+          <p class="clock-date" id="tai-date">UTC + 37 s</p>
+        </div>
+      </div>
+      <p class="clock-note">The ticking displays use your device clock. TAI is calculated from that UTC reading and the published offset.</p>
+      <noscript><p class="clock-note">Enable JavaScript to see the ticking displays.</p></noscript>
+    </section>
+
+    <section class="results" aria-labelledby="results-title">
+      <div class="section-heading">
+        <h2 id="results-title">Published time data</h2>
+        <p>Sources checked <time datetime="2026-11-16">16 November 2026</time></p>
+      </div>
+      <div class="metrics">
+        <article>
+          <h3>TAI − UTC</h3>
+          <p class="value" id="tai-offset" data-seconds="37"
+             data-start="2017-01-01T00:00:00Z" data-end="2027-07-01T00:00:00Z">+37 <span>s</span></p>
+          <p>In effect since 1 January 2017. The IERS announced no leap second at the end of December 2026.</p>
+          <a href="https://datacenter.iers.org/data/html/bulletinc-072.html">IERS Bulletin C 72</a>
+        </article>
+        <article>
+          <h3>TAI scale interval</h3>
+          <p class="value">(0.03 ± 0.07) × 10<sup>−15</sup></p>
+          <p>Fractional departure from the TT scale interval. Published estimate <var>d</var> and uncertainty <var>u</var> for MJD 61309–61344.</p>
+          <a href="https://webtai.bipm.org/ftp/pub/tai/Circular-T/cirthtm/cirt.466.html">BIPM Circular T 466, §3 table 2</a>
+        </article>
+        <article>
+          <h3>EAL steering correction</h3>
+          <p class="value">6.502 × 10<sup>−13</sup></p>
+          <p>Normalized <var>f</var>(EAL) − <var>f</var>(TAI) for MJD 61344–61374 (31 October to 30 November 2026).</p>
+          <a href="https://webtai.bipm.org/ftp/pub/tai/Circular-T/cirthtm/cirt.466.html">BIPM Circular T 466, §2</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="sources" aria-labelledby="sources">
+      <h2 id="sources">Source publications</h2>
+      <ul>
+        <li><a href="https://www.bipm.org/en/time-ftp/circular-t">Circular T archive</a><span>Monthly offsets between UTC and local realizations. Issue 466 was published 13 November 2026.</span></li>
+        <li><a href="https://www.bipm.org/en/time-ftp/utcr">Rapid UTC archive</a><span>Weekly releases of daily comparisons with participating laboratories.</span></li>
+        <li><a href="https://datacenter.iers.org/availableVersions.php?id=16">Bulletin C archive</a><span>Leap-second announcements and the authoritative TAI–UTC offset.</span></li>
+      </ul>
+      <p class="attribution">The TAI scale interval and EAL steering figures are from BIPM Circular T 466, shown here in a condensed format. <a href="https://www.bipm.org/en/copyright">BIPM attribution terms</a>.</p>
+    </section>
+
+    <aside class="notice" aria-labelledby="notice-title">
+      <h2 id="notice-title">Clearance notice</h2>
+      <p>This is an independent research project. We have no official BIPM endorsement or clearance to reuse data submitted by contributing laboratories. For those records, consult the original archive and the <a href="https://www.bipm.org/en/time-ftp">BIPM Time Department reuse notice</a>.</p>
+    </aside>
+  </main>
+</body>
+</html>
