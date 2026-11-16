@@ -29,14 +29,16 @@
           <h2>UTC <span>Coordinated Universal Time</span></h2>
           <p class="digits" id="utc-time">--:--:--</p>
           <p class="clock-date" id="utc-date">Device clock</p>
+          <p class="clock-note">Your device clock, not a UTC realization; its error is unknown</p>
         </div>
         <div class="clock tai">
           <h2>TAI <span>International Atomic Time</span></h2>
           <p class="digits" id="tai-time">--:--:--</p>
           <p class="clock-date" id="tai-date">UTC + 37 s</p>
+          <p class="clock-note">Device clock + 37 s</p>
         </div>
       </div>
-      <p class="clock-note">The ticking displays use your device clock. TAI is calculated from that UTC reading and the published offset.</p>
+      <p class="clock-note">The ticking displays use your device clock. TAI is calculated from that UTC reading and the published offset. The display shows whole seconds and may lag the device clock by up to about a second.</p>
       <noscript><p class="clock-note">Enable JavaScript to see the ticking displays.</p></noscript>
     </section>
 
@@ -83,7 +85,7 @@
     <section class="results" aria-labelledby="results-title">
       <div class="section-heading">
         <h2 id="results-title">Published time data</h2>
-        <p>Sources checked <time datetime="2026-11-16">16 November 2026</time></p>
+        <p>Sources checked <time datetime="2026-11-16">16 November 2026</time>. Next Circular T (issue 467) expected mid-December 2026; until then these are the latest published values.</p>
       </div>
       <div class="metrics">
         <article>
@@ -100,9 +102,10 @@
           <a href="https://webtai.bipm.org/ftp/pub/tai/Circular-T/cirthtm/cirt.466.html">BIPM Circular T 466, §3 table 2</a>
         </article>
         <article>
-          <h3>EAL steering correction</h3>
+          <h3>f(EAL) − f(TAI)</h3>
           <p class="value">6.502 × 10<sup>−13</sup></p>
-          <p>Normalized <var>f</var>(EAL) − <var>f</var>(TAI) for MJD 61344–61374 (31 October to 30 November 2026).</p>
+          <p>For MJD 61344–61374 (31 October to 30 November 2026).</p>
+          <p>Normalized frequency difference between the free atomic scale EAL and TAI. BIPM steers TAI by changing this value in small steps; from the previous interval (6.501 × 10<sup>−13</sup>, MJD 61309–61344) it changed by +0.001 × 10<sup>−13</sup>.</p>
           <a href="https://webtai.bipm.org/ftp/pub/tai/Circular-T/cirthtm/cirt.466.html">BIPM Circular T 466, §2</a>
         </article>
       </div>
@@ -115,7 +118,7 @@
         <li><a href="https://www.bipm.org/en/time-ftp/utcr">Rapid UTC archive</a><span>Weekly releases of daily comparisons with participating laboratories.</span></li>
         <li><a href="https://datacenter.iers.org/availableVersions.php?id=16">Bulletin C archive</a><span>Leap-second announcements and the authoritative TAI–UTC offset.</span></li>
       </ul>
-      <p class="attribution">The UTC(k) comparisons, TAI scale interval, and EAL steering figures are from BIPM Circular T 466, shown here in a condensed format. <a href="https://www.bipm.org/en/copyright">BIPM attribution terms</a>.</p>
+      <p class="attribution">The UTC(k) comparisons, TAI scale interval, and EAL steering figures are from BIPM Circular T 466, shown here in a condensed format. <a href="https://www.bipm.org/en/copyright">BIPM attribution terms</a>. BIPM material is used under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, © BIPM. TAI − UTC from <a href="https://datacenter.iers.org/data/html/bulletinc-072.html">IERS Bulletin C 72</a>, © IERS.</p>
     </section>
 
     <aside class="notice" aria-labelledby="notice-title">
@@ -123,5 +126,8 @@
       <p>This is an independent research project. We have no official BIPM endorsement or clearance to reuse data submitted by contributing laboratories. For those records, consult the original archive and the <a href="https://www.bipm.org/en/time-ftp">BIPM Time Department reuse notice</a>.</p>
     </aside>
   </main>
+  <footer class="wrap">
+    <p class="attribution"><a href="https://github.com/uwarring82/tai-clock-dashboard">Version 0.1.0 · data: Circular T 466, Bulletin C 72</a></p>
+  </footer>
 </body>
 </html>

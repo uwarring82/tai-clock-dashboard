@@ -1,3 +1,7 @@
+// Bulletin C 72 (July 2026) announced no leap second at the end of December 2026.
+// Leap seconds occur only at the end of June or December, so TAI − UTC = 37 s
+// holds until 2027-07-01T00:00Z. Re-check after Bulletin C 73 (January 2027)
+// and move data-end accordingly.
 export function clockReadings(now, offsetSeconds, validFrom, validUntil) {
   const utc = new Date(now).toISOString();
   const tai = now >= validFrom && now < validUntil

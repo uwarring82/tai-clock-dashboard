@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "Please cite this software using the metadata in this file."
+title: "TAI Clock Dashboard"
+type: software
+authors:
+  - family-names: "Warring"
+    given-names: "Ulrich"
+    affiliation: "University of Freiburg"
+repository-code: "https://github.com/uwarring82/tai-clock-dashboard"
+url: "https://tai-clock-dashboard.uwarring.chatgpt.site"
+version: "0.1.0"
+date-released: 2026-11-16
+license: MIT
+references:
+  - type: data
+    title: "BIPM Circular T 466"
+    authors:
+      - name: "BIPM"
+    url: "https://webtai.bipm.org/ftp/pub/tai/Circular-T/cirthtm/cirt.466.html"
+  - type: data
+    title: "IERS Bulletin C 72"
+    authors:
+      - name: "IERS"
+    url: "https://datacenter.iers.org/data/html/bulletinc-072.html"
