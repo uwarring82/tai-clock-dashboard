@@ -1,0 +1,41 @@
+{
+  "@context": "https://w3id.org/codemeta/3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "TAI Clock Dashboard",
+  "author": [
+    {
+      "@type": "Person",
+      "familyName": "Warring",
+      "givenName": "Ulrich",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Freiburg"
+      }
+    }
+  ],
+  "codeRepository": "https://github.com/uwarring82/tai-clock-dashboard",
+  "url": "https://tai-clock-dashboard.uwarring.chatgpt.site",
+  "version": "0.1.0",
+  "datePublished": "2026-11-16",
+  "license": "https://spdx.org/licenses/MIT",
+  "citation": [
+    {
+      "@type": "Dataset",
+      "name": "BIPM Circular T 466",
+      "url": "https://webtai.bipm.org/ftp/pub/tai/Circular-T/cirthtm/cirt.466.html",
+      "author": {
+        "@type": "Organization",
+        "name": "BIPM"
+      }
+    },
+    {
+      "@type": "Dataset",
+      "name": "IERS Bulletin C 72",
+      "url": "https://datacenter.iers.org/data/html/bulletinc-072.html",
+      "author": {
+        "@type": "Organization",
+        "name": "IERS"
+      }
+    }
+  ]
+}

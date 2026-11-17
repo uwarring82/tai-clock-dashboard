@@ -10,6 +10,28 @@ This is an independent research project. We have no official BIPM endorsement or
 
 A research dashboard for the atomic clocks that contribute to International Atomic Time (TAI). The historical views bring together reported clock phase, declared events, observation status and monthly ensemble weights.
 
+The public page is a static summary of published BIPM and IERS results. This branch, `synthetic-history`, adds a synthetic-data pilot of the historical views (no submitted clock records).
+
+**Starting work?** Read the [contributor handoff](HANDOFF.md). It describes the first pull request, the October 2026 audit, and the conditions for using submitted clock data or starting the weight replay.
+
+## Limits and honest claims
+
+- The ticking clocks are the visitor's device clock, not a UTC realization; its error is unknown.
+- Values are copied by hand from Circular T 466 and Bulletin C 72 and go stale when the next issues appear (dates on the page).
+- The page is not endorsed by BIPM or IERS.
+- No laboratory-submitted clock records are used or stored here; the pilot below runs on synthetic fixtures only.
+- The HANDOFF's power estimate is not reproducible from this repository. Its script, seed and assumptions must be supplied and the estimate reproduced before use.
+
+## Run locally
+
+Serve `public/` over HTTP, for example:
+
+```sh
+python3 -m http.server --directory public 8000
+```
+
+Open http://localhost:8000. The ES module does not load from `file://`.
+
 ## Run the synthetic pilot
 
 From the repository root, use Python 3.10 or newer. The pilot uses the standard library and SQLite.
@@ -38,4 +60,6 @@ In the revised synthetic October release, one of two positively weighted clocks 
 
 Run the tests with `python3 -m unittest discover -s tests -v`.
 
-**Continuing development?** See the [contributor handoff](HANDOFF.md) for the October 2026 audit and the conditions for using submitted clock data or starting weight replay.
+## Licence and citation
+
+The code is under MIT ([LICENSE](LICENSE)); the text and original figures are under CC BY 4.0 ([LICENSE-docs.md](LICENSE-docs.md)). BIPM and IERS material is under its own terms ([NOTICE.md](NOTICE.md)). Cite via [CITATION.cff](CITATION.cff).

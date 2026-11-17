@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Individual atomic clock profiles and published frequency evaluations from PTB, NIST, and NICT.">
+  <title>Individual Atomic Clocks · TAI Clock Dashboard</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap header-inner">
+      <a href="./" class="brand"><span class="brand-mark" aria-hidden="true"></span>TAI Clock Dashboard</a>
+      <nav aria-label="Page links">
+        <a href="./#national-utc">National UTC</a>
+        <a href="./clocks.html" aria-current="page">Atomic clocks</a>
+        <a href="./#sources">Sources</a>
+        <a href="https://github.com/uwarring82/tai-clock-dashboard">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero directory-hero" aria-labelledby="page-title">
+      <h1 id="page-title">Individual atomic clocks</h1>
+      <p class="subtitle">Explore four frequency standards through evaluations published by their own laboratories. The values describe fractional systematic frequency uncertainty in the cited studies.</p>
+      <nav class="directory-nav" aria-label="Jump to an instrument">
+        <a href="#ptb-csf1">PTB-CSF1</a>
+        <a href="#ptb-csf2">PTB-CSF2</a>
+        <a href="#nist-f4">NIST-F4</a>
+        <a href="#nict-sr1">NICT-Sr1</a>
+      </nav>
+    </section>
+
+    <section class="clock-directory" aria-label="Clock profiles">
+      <article id="ptb-csf1" class="clock-profile" aria-labelledby="ptb-csf1-name">
+        <p class="profile-lab">Physikalisch-Technische Bundesanstalt · Germany</p>
+        <h2 id="ptb-csf1-name">PTB-CSF1</h2>
+        <p class="profile-role">Caesium fountain · Primary frequency standard</p>
+        <p class="profile-detail">PTB uses this fountain in the realization of UTC(PTB) and for calibration of the TAI scale interval.</p>
+        <dl>
+          <dt>Published systematic uncertainty</dt>
+          <dd class="value">2.74 × 10<sup>−16</sup></dd>
+        </dl>
+        <p class="profile-context">Weyers et al. (2018), table 2. Standard primary-frequency operation.</p>
+        <p class="profile-source"><a href="https://www.ptb.de/cms/fileadmin/internet/fachabteilungen/abteilung_4/4.4_zeit_und_frequenz/2018_Weyers_Metrologia__Advances_in_the_accuracy__stability__and_reliability_of_the_PTB_primary_fountain_clocks.pdf">author manuscript (PTB)</a> · <a href="https://doi.org/10.1088/1681-7575/aae008">Metrologia version of record</a></p>
+      </article>
+
+      <article id="ptb-csf2" class="clock-profile" aria-labelledby="ptb-csf2-name">
+        <p class="profile-lab">Physikalisch-Technische Bundesanstalt · Germany</p>
+        <h2 id="ptb-csf2-name">PTB-CSF2</h2>
+        <p class="profile-role">Caesium fountain · Primary frequency standard</p>
+        <p class="profile-detail">PTB alternates between two atom densities to evaluate the frequency shift caused by collisions between cold caesium atoms.</p>
+        <dl>
+          <dt>Published systematic uncertainty</dt>
+          <dd class="value">1.71 × 10<sup>−16</sup></dd>
+        </dl>
+        <p class="profile-context">Weyers et al. (2018), table 2. Standard primary-frequency operation.</p>
+        <p class="profile-source"><a href="https://www.ptb.de/cms/fileadmin/internet/fachabteilungen/abteilung_4/4.4_zeit_und_frequenz/2018_Weyers_Metrologia__Advances_in_the_accuracy__stability__and_reliability_of_the_PTB_primary_fountain_clocks.pdf">author manuscript (PTB)</a> · <a href="https://doi.org/10.1088/1681-7575/aae008">Metrologia version of record</a></p>
+      </article>
+
+      <article id="nist-f4" class="clock-profile" aria-labelledby="nist-f4-name">
+        <p class="profile-lab">National Institute of Standards and Technology · United States</p>
+        <h2 id="nist-f4-name">NIST-F4</h2>
+        <p class="profile-role">Caesium fountain · Primary frequency standard</p>
+        <p class="profile-detail">Built using parts of NIST-F1, this fountain probes the microwave transition in laser-cooled caesium atoms.</p>
+        <dl>
+          <dt>Published systematic uncertainty</dt>
+          <dd class="value">2.2 × 10<sup>−16</sup></dd>
+        </dl>
+        <p class="profile-context">Gerginov et al. evaluation (2025), with the corrected uncertainty budget in the 2026 corrigendum.</p>
+        <p class="profile-source"><a href="https://doi.org/10.1088/1681-7575/adc7bd">Read the NIST evaluation</a> · <a href="https://doi.org/10.1088/1681-7575/ae382e">Corrigendum</a></p>
+      </article>
+
+      <article id="nict-sr1" class="clock-profile" aria-labelledby="nict-sr1-name">
+        <p class="profile-lab">National Institute of Information and Communications Technology · Japan</p>
+        <h2 id="nict-sr1-name">NICT-Sr1</h2>
+        <p class="profile-role">Strontium optical lattice clock · Secondary frequency standard</p>
+        <p class="profile-detail">This clock probes the 698 nm transition in strontium-87. NICT began contributing its calibrations to TAI in December 2018.</p>
+        <dl>
+          <dt>Published systematic uncertainty</dt>
+          <dd class="value">5.4 × 10<sup>−17</sup></dd>
+        </dl>
+        <p class="profile-context">Nemitz et al. (2021), table 1. Nominal clock budget before the gravitational redshift correction.</p>
+        <p class="profile-source"><a href="https://doi.org/10.1088/1681-7575/abc232">Read the frequency evaluation</a> · <a href="https://www.nict.go.jp/en/sts/optical_lattice_clock.html">NICT clock overview</a></p>
+      </article>
+    </section>
+
+    <p class="attribution">Profile values are cited from the laboratory evaluations linked on each profile; they remain under their publishers' terms.</p>
+
+    <aside class="notice" aria-labelledby="notice-title">
+      <h2 id="notice-title">Clock histories and weights</h2>
+      <p>The profiles use dated laboratory evaluations. Frequency standards can calibrate the rate of TAI, while the ensemble uses clock phase records to form the free atomic scale. We have no official BIPM endorsement or clearance to reuse submitted laboratory records. Individual phase histories and ensemble weights await documented reuse clearance.</p>
+      <p><a href="https://www.bipm.org/en/time-ftp">BIPM Time Department reuse notice</a></p>
+    </aside>
+  </main>
+  <footer class="wrap">
+    <p class="attribution"><a href="https://github.com/uwarring82/tai-clock-dashboard/releases/tag/v0.1.0">Version 0.1.0 · profile values from the cited laboratory papers</a></p>
+  </footer>
+</body>
+</html>

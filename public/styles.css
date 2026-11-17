@@ -65,3 +65,48 @@ h3 { font-size: .95rem; }
   .digits { font-size: clamp(2.4rem, 11vw, 3.6rem); }
   .header-inner { padding-block: .65rem; }
 }
+
+nav a[aria-current="page"] { color: var(--accent); }
+.directory-hero { margin-bottom: 2rem; }
+.directory-nav { margin-top: 1.25rem; }
+.directory-nav a { color: var(--accent); }
+.clock-directory { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.clock-profile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  border: 1px solid var(--line);
+  border-radius: .65rem;
+  background: var(--panel);
+}
+.clock-profile:target { border-color: var(--accent); }
+.profile-lab, .profile-context { color: var(--muted); font-size: .85rem; }
+.clock-profile h2 { margin-top: .2rem; font-size: 1.7rem; }
+.profile-role { color: var(--accent); font-size: .9rem; }
+.profile-detail { margin-top: .65rem; }
+.clock-profile dl { margin: 1.1rem 0 .15rem; padding-top: .7rem; border-top: 1px solid var(--line); }
+.clock-profile dt { font-size: .88rem; }
+.clock-profile dd { margin-inline-start: 0; }
+.profile-context { margin-bottom: .7rem; }
+.profile-source { margin-top: auto; font-size: .85rem; }
+
+@media (max-width: 44rem) {
+  .clock-directory { grid-template-columns: 1fr; }
+}
+
+.national-utc { margin-bottom: 3rem; }
+.section-note { margin-block: .5rem 1rem; color: var(--muted); max-width: 52rem; }
+.utc-table-wrap { border: 1px solid var(--line); border-radius: .65rem; background: var(--panel); }
+.utc-table { width: 100%; border-collapse: collapse; text-align: left; }
+.utc-table caption { padding: .8rem 1rem; text-align: left; color: var(--muted); font-size: .9rem; }
+.utc-table th, .utc-table td { border-top: 1px solid var(--line); padding: .65rem 1rem; }
+.utc-table thead th { color: var(--muted); font-weight: 600; font-size: .88rem; }
+.utc-table small { display: block; color: var(--muted); font-weight: 400; }
+.utc-offset { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.utc-offset strong { color: var(--accent); white-space: nowrap; }
+
+@media (max-width: 30rem) {
+  .header-inner { align-items: flex-start; flex-direction: column; gap: .45rem; }
+  .utc-table th, .utc-table td { padding-inline: .55rem; }
+}

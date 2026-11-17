@@ -1,0 +1,1 @@
+The README, HANDOFF, page prose and original figures are licensed under the Creative Commons Attribution 4.0 International licence (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/, © 2026 Ulrich Warring. Third-party material remains under its own terms as described in [NOTICE.md](NOTICE.md).
