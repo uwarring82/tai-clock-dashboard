@@ -30,7 +30,7 @@ Serve `public/` over HTTP, for example:
 python3 -m http.server --directory public 8000
 ```
 
-Open http://localhost:8000. The ES module does not load from `file://`.
+Open http://localhost:8000. The ES module does not load from `file://`. Run the page tests with `node --test` (Node 22 or later).
 
 ## Licence and citation
 
